@@ -1,0 +1,58 @@
+treatments:
+  - name: default_game
+    factorIds:
+      - BatrHem5dPCpAM9CM
+      - Ru9WxgBq7ByAJ6gHk
+      - zfmsZ5WSmzLWGxo4W
+      - WrixGxgnpMhzL7TSr
+factorTypes:
+  - _id: 4egfHGFPZzZKGkxYR
+    name: playerCount
+    description: The Number of players participating in the given game.
+    required: true
+    type: Integer
+    min: 1
+  - _id: 9bWZxgPAN2YMxv7gL
+    name: stageDuration
+    description: The maximum duration for the participant to make a choice (0 = unlimited)
+    required: false
+    type: Integer
+    min: 0
+    max: 100
+  - _id: KFa92HnajZRHNrcyR
+    name: basePay
+    description: 'The amount for base pay (i.e., showing up and completing the experiment)'
+    required: true
+    type: Number
+    min: 0
+    max: 2
+  - _id: BkhjzAmGdRCweFvpv
+    name: conversionRate
+    description: This will be multiplied by their total score to compute the bonus
+    required: true
+    type: Number
+    min: 0
+    max: 0.5
+factors:
+  - _id: BatrHem5dPCpAM9CM
+    name: solo
+    value: 1
+    factorTypeId: 4egfHGFPZzZKGkxYR
+  - _id: Ru9WxgBq7ByAJ6gHk
+    name: '30'
+    value: 30
+    factorTypeId: 9bWZxgPAN2YMxv7gL
+  - _id: zfmsZ5WSmzLWGxo4W
+    name: '0.5'
+    value: 0.5
+    factorTypeId: KFa92HnajZRHNrcyR
+  - _id: WrixGxgnpMhzL7TSr
+    name: '0.056'
+    value: 0.056
+    factorTypeId: BkhjzAmGdRCweFvpv
+lobbyConfigs:
+  - name: default
+    timeoutType: lobby
+    timeoutInSeconds: 300
+    timeoutStrategy: fail
+    gameLobbyIds: []
