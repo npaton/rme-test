@@ -45,7 +45,7 @@ export default class ExitSurvey extends React.Component {
             <strong>
               bonus for the part of Reading the Mind from the Eye tests{" "}
               <em>is ${player.get("bonus") || 0}</em> in addition to your base pay of  <em>${game.treatment.basePay}</em>.
-              <p>Note that both base pay and bonus will be paid as bonuses upon the approval of the HIT.</p>
+              <p><strong>Note that <em>both base pay and bonus will be paid as bonuses</em> upon the approval of the HIT</strong>.</p>
             </strong>{" "}
           </p>
         </div>
