@@ -8,7 +8,7 @@ Empirica.onGameStart((game) => {});
 // onRoundStart is triggered before each round starts, and before onStageStart.
 // It receives the same options as onGameStart, and the round that is starting.
 Empirica.onRoundStart((game, round) => {
-  game.players.forEach(player => {
+  game.players.forEach((player) => {
     player.round.set("answer", null);
   });
 });
@@ -28,42 +28,28 @@ Empirica.onRoundEnd((game, round) => {
   //compute the score at the end of the round
   const correctAnswer = round.get("task").correctAnswer;
 
-  game.players.forEach(player => {
+  game.players.forEach((player) => {
     const answer = player.round.get("answer");
     // If no guess given, score is 0
     const score = !answer ? 0 : correctAnswer === answer ? 1 : 0;
 
     player.set("score", player.get("score") + Math.round(score));
   });
-
-  if (round.index +1 === 36){
-    console.log("game ended");
-    const conversionRate = game.treatment.conversionRate
-        ? game.treatment.conversionRate
-        : 1 / 18.0;
-    console.log("game ", game._id, "has end");
-    console.log("-------------");
-    //calculate the bonus at the end of the round
-    game.players.forEach(player => {
-      player.set("bonus", (player.get("score") * conversionRate).toFixed(2));
-    });
-  }
-
 });
 
 // onGameEnd is triggered when the game ends.
 // It receives the same options as onGameStart.
-Empirica.onGameEnd(game => {
-  // console.log("game ended");
-  // const conversionRate = game.treatment.conversionRate
-  //     ? game.treatment.conversionRate
-  //     : 1 / 18.0;
-  // console.log("game ", game._id, "has end");
-  // console.log("-------------");
-  // //calculate the bonus at the end of the round
-  // game.players.forEach(player => {
-  //   player.set("bonus", (player.get("score") * conversionRate).toFixed(2));
-  // });
+Empirica.onGameEnd((game) => {
+  console.log("game ended");
+  const conversionRate = game.treatment.conversionRate
+    ? game.treatment.conversionRate
+    : 1 / 18.0;
+  console.log("game ", game._id, "has end");
+  console.log("-------------");
+  //calculate the bonus at the end of the round
+  game.players.forEach((player) => {
+    player.set("bonus", (player.get("score") * conversionRate).toFixed(2));
+  });
 });
 
 // ===========================================================================

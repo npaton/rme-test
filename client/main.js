@@ -1,20 +1,16 @@
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import Empirica from "meteor/empirica:core";
 import { render } from "react-dom";
-
-
-import "@blueprintjs/icons/lib/css/blueprint-icons.css";
-import "@blueprintjs/core/lib/css/blueprint.css";
-
-
 import ExitSurvey from "./exit/ExitSurvey";
+import Sorry from "./exit/Sorry";
 import Thanks from "./exit/Thanks";
 import About from "./game/About";
 import Round from "./game/Round";
 import Consent from "./intro/Consent";
-import Instructions from "./intro/Instructions";
 import Example from "./intro/Example";
+import Instructions from "./intro/Instructions";
 import Quiz from "./intro/Quiz";
-import Sorry from "./exit/Sorry";
 
 // Set the About Component you want to use for the About dialog (optional).
 Empirica.about(About);
@@ -26,7 +22,7 @@ Empirica.consent(Consent);
 // At this point they have been assigned a treatment. You can return
 // different instruction steps depending on the assigned treatment.
 Empirica.introSteps((game, treatment) => {
-  return [Instructions,Example,Quiz];
+  return [Instructions, Example, Quiz];
 });
 
 // The Round component containing the game UI logic.
@@ -43,7 +39,7 @@ Empirica.round(Round);
 // If you don't return anything, or do not define this function, a default
 // exit screen will be shown.
 Empirica.exitSteps((game, player) => {
-  if (player.exitStatus!=="finished") {
+  if (player.exitStatus !== "finished") {
     return [Sorry];
   }
   return [ExitSurvey, Thanks];
