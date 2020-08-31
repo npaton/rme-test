@@ -3,28 +3,32 @@ import Empirica from "meteor/empirica:core";
 // onGameStart is triggered opnce per game before the game starts, and before
 // the first onRoundStart. It receives the game and list of all the players in
 // the game.
-Empirica.onGameStart((game, players) => {});
+Empirica.onGameStart((game) => {});
 
 // onRoundStart is triggered before each round starts, and before onStageStart.
 // It receives the same options as onGameStart, and the round that is starting.
-Empirica.onRoundStart((game, round, players) => {});
+Empirica.onRoundStart((game, round) => {
+  game.players.forEach(player => {
+    player.round.set("answer", null);
+  });
+});
 
 // onStageStart is triggered before each stage starts.
 // It receives the same options as onRoundStart, and the stage that is starting.
-Empirica.onStageStart((game, round, stage, players) => {});
+Empirica.onStageStart((game, round, stage) => {});
 
 // onStageEnd is triggered after each stage.
 // It receives the same options as onRoundEnd, and the stage that just ended.
-Empirica.onStageEnd((game, round, stage, players) => {});
+Empirica.onStageEnd((game, round, stage) => {});
 
 // onRoundEnd is triggered after each round.
 // It receives the same options as onGameEnd, and the round that just ended.
-Empirica.onRoundEnd((game, round, players) => {
+Empirica.onRoundEnd((game, round) => {
   console.log("round", round.index + 1, "For game ", game._id, "has ended");
   //compute the score at the end of the round
   const correctAnswer = round.get("task").correctAnswer;
 
-  players.forEach(player => {
+  game.players.forEach(player => {
     const answer = player.round.get("answer");
     // If no guess given, score is 0
     const score = !answer ? 0 : correctAnswer === answer ? 1 : 0;
@@ -32,21 +36,34 @@ Empirica.onRoundEnd((game, round, players) => {
     player.set("score", player.get("score") + Math.round(score));
   });
 
+  if (round.index +1 === 36){
+    console.log("game ended");
+    const conversionRate = game.treatment.conversionRate
+        ? game.treatment.conversionRate
+        : 1 / 18.0;
+    console.log("game ", game._id, "has end");
+    console.log("-------------");
+    //calculate the bonus at the end of the round
+    game.players.forEach(player => {
+      player.set("bonus", (player.get("score") * conversionRate).toFixed(2));
+    });
+  }
+
 });
 
 // onGameEnd is triggered when the game ends.
 // It receives the same options as onGameStart.
-Empirica.onGameEnd((game, players) => {
-  console.log("game ended")
-  const conversionRate = game.treatment.conversionRate
-      ? game.treatment.conversionRate
-      : 1 / 18.0;
-  console.log("game ", game._id, "has end");
-  console.log("-------------");
-  //calculate the bonus at the end of the round
-  players.forEach(player => {
-    player.set("bonus", (player.get("score") * conversionRate).toFixed(2));
-  });
+Empirica.onGameEnd(game => {
+  // console.log("game ended");
+  // const conversionRate = game.treatment.conversionRate
+  //     ? game.treatment.conversionRate
+  //     : 1 / 18.0;
+  // console.log("game ", game._id, "has end");
+  // console.log("-------------");
+  // //calculate the bonus at the end of the round
+  // game.players.forEach(player => {
+  //   player.set("bonus", (player.get("score") * conversionRate).toFixed(2));
+  // });
 });
 
 // ===========================================================================
